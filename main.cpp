@@ -231,11 +231,6 @@ public:
         }
     }
 
-    // 返回图的邻接表
-    const unordered_map<string, unordered_map<string, int>>& getAdjList() const {
-        return adjList;
-    }
-
     // 随机游走功能
     void randomWalk(bool interactive = false, int stepDelayMs = 1000) {
         // interactive - 是否启用交互模式
@@ -261,7 +256,7 @@ public:
         std::cout << "Random walk started. Press 's' to stop." << std::endl;
         std::cout << "Current path: " << current;
         // 主循环
-        while (!stop) {
+        while (true) {
             // 检查终止条件1：无出边
             if (adjList[current].empty()) {
                 std::cout << "\nStopped: Node " << current << " has no outgoing edges." << std::endl;
@@ -272,7 +267,7 @@ public:
                 std::this_thread::sleep_for(std::chrono::milliseconds(stepDelayMs));
             }
             // 随机选择下一个节点
-            auto& edges = adjList[current];    // 获取当前节点的所有出边
+            const auto& edges = adjList[current];    // 获取当前节点的所有出边
             std::vector<std::string> destinations; 
             for (const auto& edge : edges) {         // 获取所有可达的目标节点
                 destinations.push_back(edge.first);  // edge.first是目标节点
